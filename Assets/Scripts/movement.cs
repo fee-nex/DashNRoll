@@ -13,11 +13,11 @@ public class movement : MonoBehaviour
     [SerializeField] private float dashCool = 1f;
     private float dashCounter;
     private float dashCoolCounter;
-    private bool isDash=false;
+    private bool isDash = false;
 
     public TrailRenderer tr;
     Vector2 move;
-    int[] roll = new int[2] {4,4};
+    int[] roll = new int[2] { 4, 4 };
 
     [SerializeField] private GameObject Player;
     private SpriteRenderer FaceUp;
@@ -44,36 +44,36 @@ public class movement : MonoBehaviour
 
         rb.velocity = move * activeMoveSpeed;
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             /*animator.SetBool("IsRoll", true);*/
-            
-            
-            if (dashCoolCounter <=0 && dashCounter <=0)
+
+
+            if (dashCoolCounter <= 0 && dashCounter <= 0)
             {
                 dieRoll();
                 tr.emitting = true;
                 activeMoveSpeed = dashSpeed;
                 dashCounter = dashlength * roll[0];
-                
+
                 isDash = true;
             }
             /*animator.SetBool("IsRoll", false);*/
         }
 
-        if(dashCounter >0)
+        if (dashCounter > 0)
         {
             dashCounter -= Time.deltaTime;
-            if(dashCounter <= 0)
+            if (dashCounter <= 0)
             {
                 activeMoveSpeed = moveSpeed;
                 dashCoolCounter = dashCool;
                 tr.emitting = false;
-                isDash=false;
+                isDash = false;
             }
         }
 
-        if(dashCoolCounter >0)
+        if (dashCoolCounter > 0)
         {
             dashCoolCounter -= Time.deltaTime;
         }
@@ -81,7 +81,7 @@ public class movement : MonoBehaviour
 
     private void dieRoll()
     {
-        
+
         roll[0] = roll[1];
         roll[1] = Random.Range(1, 7);
         /*Debug.Log(roll[1]);*/
@@ -92,11 +92,18 @@ public class movement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(isDash)
+        if (isDash)
         {
-            if (collision.gameObject.tag == "Enemy")
+            if (collision.gameObject.CompareTag("Enemy"))
             {
                 Destroy(collision.gameObject);
+                /*if (!enemyKilled)
+                    return;*/
+
+                killStreak += 1;
+                Debug.Log(killStreak);
+                StopCoroutine("ResetStreak");
+                StartCoroutine("ResetStreak");
             }
         }
         else
@@ -107,5 +114,16 @@ public class movement : MonoBehaviour
                 SceneManager.LoadScene("Game Over");
             }
         }
+
+
+    }
+
+    public int killStreak = 0;
+    int resetTime = 4;
+
+    IEnumerator ResetStreak()
+    {
+        yield return new WaitForSeconds(resetTime);
+        killStreak = 0;
     }
 }
