@@ -83,7 +83,7 @@
                 {
                     "name": "",
                     "id": "16d555f6-d70d-4809-8676-a2b59489037c",
-                    "path": "<AndroidGamepad>/leftStick",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -105,7 +105,7 @@
                 {
                     "name": "",
                     "id": "645c8f68-ce8c-4002-a0dc-08ef1ff3df0c",
-                    "path": "<AndroidGamepad>/buttonSouth",
+                    "path": "<Gamepad>/rightStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

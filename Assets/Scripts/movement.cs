@@ -1,16 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private Rigidbody2D rb;
+    NewControls controls;
+
+    [SerializeField]
+    private float moveSpeed;
+    private Vector2 dir;
+
+    [SerializeField]
+    private Rigidbody2D rb;
     private float activeMoveSpeed;
-    [SerializeField] private float dashSpeed = 25f;
-    [SerializeField] private float dashlength = 0.2f;
-    [SerializeField] private float dashCool = 1f;
+    [SerializeField]
+    private float dashSpeed = 25f;
+    [SerializeField]
+    private float dashlength = 0.2f;
+    [SerializeField]
+    private float dashCool = 1f;
     private float dashCounter;
     private float dashCoolCounter;
     private bool isDash = false;
@@ -27,6 +37,22 @@ public class movement : MonoBehaviour
     [SerializeField] private float rangeAdjust;
 
     /*[SerializeField] Animator animator;*/
+
+    private void Awake()
+    {
+        if(controls == null)
+        {
+            controls = new NewControls();
+            controls.Enable();
+            controls.Gameplay.Movement.performed += ctrls =>
+            {
+                dir = ctrls.ReadValue<Vector2>();
+                _movement(dir);
+            };
+
+            controls.Gameplay.Dash.performed += ctrls => Dash(dir);
+        }
+    }
     private void Start()
     {
         activeMoveSpeed = moveSpeed;
@@ -35,7 +61,7 @@ public class movement : MonoBehaviour
         /*DiceFaces = Resources.LoadAll<Sprite>("DiceFaces/");*/
         FaceUp.sprite = DiceFaces[3];
     }
-    void Update()
+    /*void Update()
     {
         move.x = Input.GetAxisRaw("Horizontal");
         move.y = Input.GetAxisRaw("Vertical");
@@ -46,7 +72,7 @@ public class movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            /*animator.SetBool("IsRoll", true);*/
+            *//*animator.SetBool("IsRoll", true);*//*
 
 
             if (dashCoolCounter <= 0 && dashCounter <= 0)
@@ -58,7 +84,7 @@ public class movement : MonoBehaviour
 
                 isDash = true;
             }
-            /*animator.SetBool("IsRoll", false);*/
+            *//*animator.SetBool("IsRoll", false);*//*
         }
 
         if (dashCounter > 0)
@@ -77,8 +103,17 @@ public class movement : MonoBehaviour
         {
             dashCoolCounter -= Time.deltaTime;
         }
+    }*/
+
+    void Dash(Vector2 _dash)
+    {
+        rb.velocity = new Vector2(rb.velocity.x * dashSpeed, rb.velocity.y * dashSpeed);
     }
 
+    void _movement(Vector2 direct)
+    {
+        rb.velocity = direct * moveSpeed;
+    }
     private void dieRoll()
     {
 
