@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class movement : MonoBehaviour
@@ -61,59 +59,57 @@ public class movement : MonoBehaviour
         /*DiceFaces = Resources.LoadAll<Sprite>("DiceFaces/");*/
         FaceUp.sprite = DiceFaces[3];
     }
-    /*void Update()
-    {
-        move.x = Input.GetAxisRaw("Horizontal");
-        move.y = Input.GetAxisRaw("Vertical");
+    //void Update()
+    //{
+    //    move.x = Input.GetAxisRaw("Horizontal");
+    //    move.y = Input.GetAxisRaw("Vertical");
 
-        move.Normalize();
+    //    move.Normalize();
 
-        rb.velocity = move * activeMoveSpeed;
+    //    rb.velocity = move * activeMoveSpeed;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            *//*animator.SetBool("IsRoll", true);*//*
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        animator.SetBool("IsRoll", true);
 
 
-            if (dashCoolCounter <= 0 && dashCounter <= 0)
-            {
-                dieRoll();
-                tr.emitting = true;
-                activeMoveSpeed = dashSpeed;
-                dashCounter = dashlength * roll[0];
+    //        if (dashCoolCounter <= 0 && dashCounter <= 0)
+    //        {
+    //            dieRoll();
+    //            tr.emitting = true;
+    //            activeMoveSpeed = dashSpeed;
+    //            dashCounter = dashlength * roll[0];
 
-                isDash = true;
-            }
-            *//*animator.SetBool("IsRoll", false);*//*
-        }
+    //            isDash = true;
+    //        }
+    //        animator.SetBool("IsRoll", false);
+    //    }
 
-        if (dashCounter > 0)
-        {
-            dashCounter -= Time.deltaTime;
-            if (dashCounter <= 0)
-            {
-                activeMoveSpeed = moveSpeed;
-                dashCoolCounter = dashCool;
-                tr.emitting = false;
-                isDash = false;
-            }
-        }
+    //    if (dashCounter > 0)
+    //    {
+    //        dashCounter -= Time.deltaTime;
+    //        if (dashCounter <= 0)
+    //        {
+    //            activeMoveSpeed = moveSpeed;
+    //            dashCoolCounter = dashCool;
+    //            tr.emitting = false;
+    //            isDash = false;
+    //        }
+    //    }
 
-        if (dashCoolCounter > 0)
-        {
-            dashCoolCounter -= Time.deltaTime;
-        }
-    }*/
+    //    if (dashCoolCounter > 0)
+    //    {
+    //        dashCoolCounter -= Time.deltaTime;
+    //    }
+    //}
 
-    void Dash(Vector2 _dash)
-    {
-        rb.velocity = new Vector2(rb.velocity.x * dashSpeed, rb.velocity.y * dashSpeed);
-    }
 
     void _movement(Vector2 direct)
     {
         rb.velocity = direct * moveSpeed;
     }
+
+
     private void dieRoll()
     {
 
@@ -122,6 +118,10 @@ public class movement : MonoBehaviour
         /*Debug.Log(roll[1]);*/
         FaceUp.sprite = DiceFaces[roll[1] - 1];
         range.transform.localScale = new Vector3(rangeAdjust * roll[1], rangeAdjust * roll[1], rangeAdjust * roll[1]);
+    }
+    void Dash(Vector2 _dash)
+    {
+        rb.velocity = new Vector2(rb.velocity.x * dashSpeed, rb.velocity.y * dashSpeed);
     }
 
 
